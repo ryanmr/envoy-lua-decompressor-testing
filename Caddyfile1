@@ -4,3 +4,4 @@
 root * /usr/share/caddy/
 file_server
 encode gzip
+header Cache-Control "no-store"
