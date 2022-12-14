@@ -72,10 +72,14 @@ static_resources:
                               local body = bodyBuffer:getBytes(0, bodyBuffer:length())
                               response_handle:logDebug("body = ")
                               response_handle:logDebug(body)
-                              local rewritten = string.gsub(body, "<!-- replace -->", "<h1>envoy added content</h1>")
+
+                              -- replace an html comment and a single word
+                              local rewritten1 = string.gsub(body, "<!--replace-->", "<h1>envoy added content</h1>")
+                              local rewritten2 = string.gsub(rewritten1, "jack", "JACK")
+
                               response_handle:logDebug("new body =")
-                              response_handle:logDebug(rewritten)
-                              response_handle:body():setBytes(rewritten)
+                              response_handle:logDebug(rewritten2)
+                              response_handle:body():setBytes(rewritten2)
                             end
 
                             response_handle:logDebug("all done")
