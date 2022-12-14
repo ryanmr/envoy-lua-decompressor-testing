@@ -49,24 +49,6 @@ static_resources:
                             prefix_rewrite: "/"
                 http_filters:
                   #
-                  # decompressors
-                  #
-                  - name: gzip decompressor
-                    typed_config:
-                      "@type": type.googleapis.com/envoy.extensions.filters.http.decompressor.v3.Decompressor
-                      decompressor_library:
-                        name: basic
-                        typed_config:
-                          "@type": type.googleapis.com/envoy.extensions.compression.gzip.decompressor.v3.Gzip
-                  - name: brotli decompressor
-                    typed_config:
-                      "@type": type.googleapis.com/envoy.extensions.filters.http.decompressor.v3.Decompressor
-                      decompressor_library:
-                        name: basic
-                        typed_config:
-                          "@type": type.googleapis.com/envoy.extensions.compression.brotli.decompressor.v3.Brotli
-
-                  #
                   # lua
                   #
                   - name: envoy.filters.http.lua
@@ -77,6 +59,9 @@ static_resources:
                           math.randomseed(os.time())
 
                           function envoy_on_request(request_handle)
+                            -- by removing the Accept-Encoding header,
+                            -- a webserver should default to `identity`, uncompressed
+                            request_handle:headers():remove("accept-encoding")
                           end
 
                           function envoy_on_response(response_handle)
