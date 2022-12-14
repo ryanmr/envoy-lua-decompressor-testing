@@ -48,6 +48,27 @@ static_resources:
                             cluster: service2
                             prefix_rewrite: "/"
                 http_filters:
+                  #
+                  # decompressors
+                  #
+                  - name: gzip decompressor
+                    typed_config:
+                      "@type": type.googleapis.com/envoy.extensions.filters.http.decompressor.v3.Decompressor
+                      decompressor_library:
+                        name: basic
+                        typed_config:
+                          "@type": type.googleapis.com/envoy.extensions.compression.gzip.decompressor.v3.Gzip
+                  - name: brotli decompressor
+                    typed_config:
+                      "@type": type.googleapis.com/envoy.extensions.filters.http.decompressor.v3.Decompressor
+                      decompressor_library:
+                        name: basic
+                        typed_config:
+                          "@type": type.googleapis.com/envoy.extensions.compression.brotli.decompressor.v3.Brotli
+
+                  #
+                  # lua
+                  #
                   - name: envoy.filters.http.lua
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
@@ -84,6 +105,10 @@ static_resources:
 
                             response_handle:logDebug("all done")
                           end
+
+                  #
+                  # router
+                  #
                   - name: envoy.filters.http.router
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
