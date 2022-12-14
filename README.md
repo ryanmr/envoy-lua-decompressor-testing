@@ -5,7 +5,7 @@ We want to use lua scripts to edit the html of upstream responses. We noticed th
 ## tech
 
 * envoy as a reverse proxy
-    * [lua](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/lua_filter) for rewriting html
+    * [lua](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/lua_filter) for [rewriting html](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/lua_filter.html?highlight=lua#:~:text=There%20are%20two%20ways%20of%20doing%20this%2C%20the%20first%20one%20is%20via%20the%20body()%20API.)
 * [caddy](https://caddyserver.com/v2) used as a gzip file server
 * docker
 
@@ -15,7 +15,7 @@ We want to use lua scripts to edit the html of upstream responses. We noticed th
 docker compose up --build
 ```
 
-If the lua is working and replacement was successful, then you should see `<!--replace-->` replaced with `<h1>envoy added content</h1>` in the output either via a curl or via the browser.
+If the lua is working and replacement was successful, then you should see `<p>replace</p>` replaced with `<h1>envoy added content</h1>` in the output either via a curl or via the browser.
 
 ## ports
 

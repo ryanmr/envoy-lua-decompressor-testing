@@ -53,6 +53,8 @@ static_resources:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua
                       default_source_code:
                         inline_string: |
+                          math.randomseed(os.time())
+
                           function envoy_on_request(request_handle)
                           end
 
@@ -66,18 +68,16 @@ static_resources:
 
                             if string.find(content_type, "text/html") then
                               response_handle:logDebug("this is text/html")
-                              response_handle:logDebug("getting body bufferl")
-                              local bodyBuffer = response_handle:body()
-                              response_handle:logDebug("we have the body buffer")
-                              local body = bodyBuffer:getBytes(0, bodyBuffer:length())
-                              response_handle:logDebug("body = ")
-                              response_handle:logDebug(body)
+                              response_handle:logDebug("getting html")
+                              local html = response_handle:body():getBytes(0, response_handle:body():length())
+                              response_handle:logDebug("html = ")
+                              response_handle:logDebug(html)
 
-                              -- replace an html comment and a single word
-                              local rewritten1 = string.gsub(body, "<!--replace-->", "<h1>envoy added content</h1>")
-                              local rewritten2 = string.gsub(rewritten1, "jack", "JACK")
+                              -- replace some content
+                              local rewritten1 = string.gsub(html, "<p>replace</p>", "<p>envoy replaced this content</p>")
+                              local rewritten2 = string.gsub(rewritten1, "jack", "<b>" .. os.date("!%c") .. "</b>")
 
-                              response_handle:logDebug("new body =")
+                              response_handle:logDebug("new html =")
                               response_handle:logDebug(rewritten2)
                               response_handle:body():setBytes(rewritten2)
                             end
