@@ -15,12 +15,22 @@ We want to use lua scripts to edit the html of upstream responses. We noticed th
 docker compose up --build
 ```
 
-If the lua is working and replacement was successful, then you should see `<!-- replace -->` replaced with `<h1>envoy added content</h1>` in the output either via a curl or via the browser.
+If the lua is working and replacement was successful, then you should see `<!--replace-->` replaced with `<h1>envoy added content</h1>` in the output either via a curl or via the browser.
 
-# ports
+## ports
 
 * envoy - [localhost:8000](http://localhost:8000)
 * envoy service1 - [localhost:8000/service/1](http://localhost:8000/service/1)
 * envoy service2 - [localhost:8000/service/2](http://localhost:8000/service/2)
 * caddy service1 - [localhost:8011/](http://localhost:8011/)
 * caddy service2 - [localhost:8002/](http://localhost:8012/)
+
+## commands
+
+```
+curl -v -H "Accept-Encoding: gzip,deflate,br" http://localhost:8000/service/1
+```
+
+```
+curl -v -H "Accept-Encoding: gzip,deflate,br" http://localhost:8000/service/2
+```
