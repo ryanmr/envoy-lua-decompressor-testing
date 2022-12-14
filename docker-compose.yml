@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+
+  envoy:  
+    build:
+      context: .
+      dockerfile: envoy.Dockerfile
+    environment:
+      - ENVOY_LOG_LEVEL=trace
+    volumes:
+      - ./envoy.yml:/etc/envoy.yml
+      - ./404.html:/etc/404.html
+    ports:
+    - "8000:8000"
+    - "8001:8001"
+
+  service1:
+    image: caddy:2-alpine
+    volumes:
+    - ./Caddyfile1:/etc/caddy/Caddyfile
+    - ./index.html:/usr/share/caddy/index.html
+    environment:
+    - SERVICE_NAME=1
+    ports:
+    - "8011:8011"
+
+  service2:
+    image: caddy:2-alpine
+    volumes:
+    - ./Caddyfile2:/etc/caddy/Caddyfile
+    - ./index.html:/usr/share/caddy/index.html
+    environment:
+    - SERVICE_NAME=2
+    ports:
+    - "8012:8012"

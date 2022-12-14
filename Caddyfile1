@@ -1,0 +1,6 @@
+:8011
+
+
+root * /usr/share/caddy/
+file_server
+encode gzip
