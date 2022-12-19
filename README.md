@@ -2,6 +2,10 @@
 
 We want to use lua scripts to edit the html of upstream responses. We noticed that brotli and gzip responses are not decoded in the filter chain, so we need to use a decompressor. We noticed that the decompressor doesn't provide the content to the lua filter from `body()`.
 
+## workaround
+
+There's a [pr in this repository that shows a workaround](https://github.com/ryanmr/envoy-lua-decompressor-testing/pull/2), removing the `Accept-Encoding` header as it travels upstream so that the upstream only returns the raw content. This works for our use cases.
+
 ## tech
 
 * envoy as a reverse proxy
